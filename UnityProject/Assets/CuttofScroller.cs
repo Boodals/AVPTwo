@@ -31,7 +31,7 @@ public class CuttofScroller : MonoBehaviour {
             {
                 if (alphaBlender.GetFloat("_Cutoff") < 1)
                 {
-                    alphaBlender.SetFloat("_Cutoff", alphaBlender.GetFloat("_Cutoff") + speed);
+                    alphaBlender.SetFloat("_Cutoff", alphaBlender.GetFloat("_Cutoff") + speed * Time.deltaTime);
                 }
                 else
                 {
@@ -44,7 +44,7 @@ public class CuttofScroller : MonoBehaviour {
             {
                 if (alphaBlender.GetFloat("_Cutoff") > 0)
                 {
-                    alphaBlender.SetFloat("_Cutoff", alphaBlender.GetFloat("_Cutoff") - speed);
+                    alphaBlender.SetFloat("_Cutoff", alphaBlender.GetFloat("_Cutoff") - speed * Time.deltaTime);
                 }
                 else
                 {

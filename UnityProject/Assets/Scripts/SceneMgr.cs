@@ -10,15 +10,20 @@ public class SceneMgr : MonoBehaviour
 	{
 		singleton.StartChangeScene(sceneId);
 	}
+	public static void ChangeWindow(int sceneId)
+	{
+		singleton.SetActiveWindow(sceneId);
+	}
 
 
 	public MeshChanger holoMesh;
 
 	public int currentSceneID = 0;
 	private int screenSceneID;
-	private bool isChangingWindow = false;
+	private int changingToSceneID;
 	private bool isChangingScene = false;
-	private int sceneIDToChangeTo;
+	private bool isChangingWindow = false;
+    private bool isMoving = false;
 	public FollowPath followPath;
 
 
@@ -65,76 +70,68 @@ public class SceneMgr : MonoBehaviour
 
 	private void StartChangeScene(int sceneId)
 	{
-		if(isChangingScene || isChangingWindow)
+		//Debug.Log("StartChangeScene " + sceneId + ": " + sceneNames[sceneId] + ", " + isChangingScene + " || " + isMoving + " || " + isChangingWindow);
+		if(isChangingScene || isMoving || isChangingWindow)
 		{
 			return;
 		}
 
 		//Debug.Log(screenSceneID + " != " + sceneId);
 
-		if(screenSceneID != sceneId)
+		//Debug.Log("Moving to scene " + sceneName);
+
+		changingToSceneID = sceneId;
+		
+		if(screenSceneID != currentSceneID && windowPictures[screenSceneID] == null)
 		{
-			//Change the screen to show the scene
-			isChangingWindow = true;
+			//Close the window first, so they cant see things loading
 
-			screenSceneID = sceneId;
+			//Debug.Log("Closing window first");
 
-			if(windowPictures[sceneId] != null)
-			{
-				windowPictures[sceneId].OnFinished += OnWindowFinished;
-            }
-			else if(windowPictures[currentSceneID] != null)
-			{
-				windowPictures[currentSceneID].OnFinished += OnWindowFinished;
-			}
-			else
-			{
-				isChangingWindow = false; //No animation is playing, dont need to wait (also something probably broke)
-			}
+			SetActiveWindow(currentSceneID);
+			isChangingScene = true;
+		}
+		else
+		{
+			isChangingScene = true;
+			SetScene(sceneId);
+		}
 
-			SetActiveWindow(sceneId);
-			
-			holoMesh.swapMesh(sceneId);
+	}
+	
+	private void LoadedScene()
+	{
+		//Debug.Log("Done loading");
+		isChangingScene = false;
 
+		//Hide the window
+		SetActiveWindow(0);
+	}
+
+
+	private void StartMoveToDoor()
+	{
+		if(isChangingScene || isMoving || isChangingWindow)
+		{
 			return;
 		}
 
-		isChangingScene = true;
 		followPath.enabled = true;
 		followPath.speed = pathSpeed;
-		sceneIDToChangeTo = sceneId;
-
-		//Debug.Log("Moving to scene " + sceneName);
 
 		followPath.OnEndOfPath += OnGetToDoor;
-
-	}
-
-	private void OnWindowFinished(CuttofScroller cutOff)
-	{
-		cutOff.OnFinished -= OnWindowFinished;
-
-		isChangingWindow = false;
 	}
 
 	private void OnGetToDoor()
 	{
-		SceneManager.UnloadScene(sceneNames[currentSceneID]);
-		
-		//Debug.Log("Loading scene " + sceneToChangeTo);
-		loadAsync = SceneManager.LoadSceneAsync(sceneNames[sceneIDToChangeTo], LoadSceneMode.Additive);
-
 		followPath.enabled = false;
 
 		//Stop listening here
 		followPath.OnEndOfPath -= OnGetToDoor;
-	}
 
-	private void LoadedScene()
-	{
-		//Debug.Log("Done loading");
-		currentSceneID = sceneIDToChangeTo;
-		isChangingScene = false;
+
+
+		//When we escape out of the free camera or whatever:
 
 		followPath.enabled = true;
 		followPath.speed = -followPath.speed;
@@ -153,8 +150,42 @@ public class SceneMgr : MonoBehaviour
 	}
 
 
-	private void SetActiveWindow(int ID, bool doForce = false)
+	private void SetActiveWindow(int sceneId, bool doForce = false)
 	{
+		if(screenSceneID == sceneId && !doForce)
+		{
+			//Same screen
+			return;
+		}
+
+		//Debug.Log("SetActiveWindow " + sceneId + ": " + sceneNames[sceneId] + ", " + isChangingScene + " || " + isMoving + " || " + isChangingWindow);
+		if(isChangingScene || isMoving || isChangingWindow)
+		{
+			return;
+		}
+
+		screenSceneID = sceneId;
+
+		holoMesh.swapMesh(sceneId);
+
+		if(windowPictures[sceneId] != null)
+		{
+			isChangingWindow = true;
+			windowPictures[sceneId].OnFinished += OnWindowFinish;
+		}
+		else if(windowPictures[currentSceneID] != null)
+		{
+			isChangingWindow = true;
+			windowPictures[currentSceneID].OnFinished += OnWindowFinish;
+        }
+		else
+		{
+			//Changing from null window to null window
+
+			//Do nothing
+		}
+
+
 		int i = 0;
 		foreach(CuttofScroller cutOff in windowPictures)
 		{
@@ -163,15 +194,67 @@ public class SceneMgr : MonoBehaviour
 				if(doForce)
 				{
 					//Debug.Log(doForce + " forceTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
-					cutOff.forceTransition(ID != i);
+					cutOff.forceTransition(sceneId != i);
 				}
 				else
 				{
 					//Debug.Log(doForce + " beginTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
-					cutOff.beginTransition(ID != i);
+					cutOff.beginTransition(sceneId != i);
 				}
 			}
 			i++;
 		}
 	}
+
+	private void OnWindowFinish(CuttofScroller cutOff)
+	{
+		//Debug.Log("OnWindowFinish " + isChangingScene);
+
+
+		isChangingWindow = false;
+
+		//Stop listening
+		if(cutOff != null)
+		{
+			cutOff.OnFinished -= OnWindowFinish;
+		}
+
+
+		if(isChangingScene)
+		{
+			SetScene(changingToSceneID);
+		}
+		else if(currentSceneID != 0 && windowPictures[screenSceneID] != null)
+		{
+			//They arent looking, unload the scene!
+
+			//Debug.Log("They arent looking, unload the scene! " + screenSceneID + " != " + currentSceneID + " && " + (windowPictures[screenSceneID] != null));
+			
+			SetScene(0);
+		}
+	}
+
+	private void SetScene(int sceneId)
+	{
+		//Debug.Log("SetScene " + sceneId + ", " + sceneNames[sceneId]);
+
+
+		SceneManager.UnloadScene(sceneNames[currentSceneID]);
+
+		//Debug.Log("Loading scene " + sceneToChangeTo);
+		
+
+		loadAsync = SceneManager.LoadSceneAsync(sceneNames[sceneId], LoadSceneMode.Additive);
+		
+		currentSceneID = sceneId;
+
+		if(loadAsync == null)
+		{
+			//Failed to load, scene probably doesnt exist
+			Debug.LogWarning("Failed to load scene");
+
+			LoadedScene();
+		}
+	}
+
 }
