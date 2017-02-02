@@ -85,7 +85,7 @@ public class SceneMgr : MonoBehaviour
             }
 			else if(windowPictures[currentSceneID] != null)
 			{
-				windowPictures[sceneId].OnFinished += OnWindowFinished;
+				windowPictures[currentSceneID].OnFinished += OnWindowFinished;
 			}
 			else
 			{
@@ -148,12 +148,6 @@ public class SceneMgr : MonoBehaviour
 		//Debug.Log("Back from door");
 
 		followPath.enabled = false;
-
-		//Reenable all the buttons
-		foreach(ChangeSceneButton button in FindObjectsOfType<ChangeSceneButton>())
-		{
-			button.enabled = true;
-		}
 		
 		followPath.OnStartOfPath -= OnGetBackFromDoor;
 	}
