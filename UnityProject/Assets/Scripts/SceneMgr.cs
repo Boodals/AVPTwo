@@ -70,7 +70,7 @@ public class SceneMgr : MonoBehaviour
 			return;
 		}
 
-		Debug.Log(screenSceneID + " != " + sceneId);
+		//Debug.Log(screenSceneID + " != " + sceneId);
 
 		if(screenSceneID != sceneId)
 		{
@@ -168,12 +168,12 @@ public class SceneMgr : MonoBehaviour
 			{
 				if(doForce)
 				{
-					Debug.Log(doForce + " forceTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
+					//Debug.Log(doForce + " forceTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
 					cutOff.forceTransition(ID != i);
 				}
 				else
 				{
-					Debug.Log(doForce + " beginTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
+					//Debug.Log(doForce + " beginTransition(" + ID + " != " + i + " = " + (ID != i) + ")");
 					cutOff.beginTransition(ID != i);
 				}
 			}
