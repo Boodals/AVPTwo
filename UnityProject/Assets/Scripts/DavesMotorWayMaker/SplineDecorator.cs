@@ -15,7 +15,7 @@ public class SplineDecorator : MonoBehaviour
 
     public List<Transform> controlNodes;
 
-    bool testingBool = false;
+    //bool testingBool = false;
 
     private MeshMaker shapeHold;
     //private FlapProducer flapHold;

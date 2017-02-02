@@ -13,7 +13,7 @@ public class MeshMaker : MonoBehaviour
 
     private List<GameObject> Inputpoints;
     private Vector3[] pointLocs;
-    private Vector2[] UVs;
+    //private Vector2[] UVs;
     private int[] tris;
     private Mesh model;
     public int numOfIterations;
@@ -84,7 +84,7 @@ public class MeshMaker : MonoBehaviour
             calcEndCaps();
         }
         model.vertices = pointLocs;
-        model.uv = UVs;
+        //model.uv = UVs;
         model.triangles = tris;
         MeshHolder.gameObject.GetComponent<Renderer>().material = _inMat;
         model.RecalculateNormals();

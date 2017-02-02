@@ -3,20 +3,22 @@ using System.Collections;
 
 public class CuttofScroller : MonoBehaviour {
 
+	public delegate void CutOffScrollerEvent(CuttofScroller cutOff);
+
     public float speed;
     Material alphaBlender;
-    private float currentBlend;
+    //private float currentBlend;
     public bool direcetion;
     private bool transition;
-    TransitionControler trC;
+
+	public event CutOffScrollerEvent OnFinished;
+	
 	// Use this for initialization
 	void Start () {
         alphaBlender = GetComponent<Renderer>().material;
-        currentBlend = 0;
+        //currentBlend = 0;
         direcetion = true;
         transition = false;
-        trC = GameObject.Find("ScriptHolderMain").GetComponent<TransitionControler>();
-
     }
 	
 	// Update is called once per frame
@@ -57,9 +59,7 @@ public class CuttofScroller : MonoBehaviour {
     //Call me to being chaning the screen transparncy
     public void beginTransition(bool _direction)
     {
-
-            trC.transitioning();
-            transition = true;
+			transition = true;
             direcetion = _direction;
         
     }
@@ -80,7 +80,10 @@ public class CuttofScroller : MonoBehaviour {
 
     private void pingControler()
     {
-        trC.informReady();
+		if(OnFinished != null)
+		{
+			OnFinished(this);
+        }
     }
 }
 

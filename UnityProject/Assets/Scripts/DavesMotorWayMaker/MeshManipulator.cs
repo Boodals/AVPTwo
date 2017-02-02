@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MeshManipulator : MonoBehaviour {
 
-    public Camera camera;
+    new public Camera camera;
 
     public GameObject camPosOneTesting;
     public GameObject camPosTwoTesting;
