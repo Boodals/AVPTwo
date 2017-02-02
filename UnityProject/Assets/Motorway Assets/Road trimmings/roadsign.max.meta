@@ -1,0 +1,284 @@
+fileFormatVersion: 2
+guid: 266abea2fabc34442844daeb9e269fa1
+timeCreated: 1483966390
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Box001
+    100002: Box002
+    100004: Box003
+    100006: Box004
+    100008: Box005
+    100010: Cylinder001
+    100012: framework
+    100014: framework 1
+    100016: framework 10
+    100018: framework 11
+    100020: framework 12
+    100022: framework 13
+    100024: framework 14
+    100026: framework 15
+    100028: framework 16
+    100030: framework 17
+    100032: framework 18
+    100034: framework 19
+    100036: framework 2
+    100038: framework 20
+    100040: framework 21
+    100042: framework 22
+    100044: framework 23
+    100046: framework 24
+    100048: framework 25
+    100050: framework 26
+    100052: framework 27
+    100054: framework 28
+    100056: framework 29
+    100058: framework 3
+    100060: framework 30
+    100062: framework 31
+    100064: framework 4
+    100066: framework 5
+    100068: framework 6
+    100070: framework 7
+    100072: framework 8
+    100074: framework 9
+    100076: //RootNode
+    100078: Sphere001
+    100080: Tube001
+    100082: Tube002
+    100084: Tube003
+    400000: Box001
+    400002: Box002
+    400004: Box003
+    400006: Box004
+    400008: Box005
+    400010: Cylinder001
+    400012: framework
+    400014: framework 1
+    400016: framework 10
+    400018: framework 11
+    400020: framework 12
+    400022: framework 13
+    400024: framework 14
+    400026: framework 15
+    400028: framework 16
+    400030: framework 17
+    400032: framework 18
+    400034: framework 19
+    400036: framework 2
+    400038: framework 20
+    400040: framework 21
+    400042: framework 22
+    400044: framework 23
+    400046: framework 24
+    400048: framework 25
+    400050: framework 26
+    400052: framework 27
+    400054: framework 28
+    400056: framework 29
+    400058: framework 3
+    400060: framework 30
+    400062: framework 31
+    400064: framework 4
+    400066: framework 5
+    400068: framework 6
+    400070: framework 7
+    400072: framework 8
+    400074: framework 9
+    400076: //RootNode
+    400078: Sphere001
+    400080: Tube001
+    400082: Tube002
+    400084: Tube003
+    2300000: Box001
+    2300002: Box002
+    2300004: Box003
+    2300006: Box004
+    2300008: Box005
+    2300010: Cylinder001
+    2300012: framework
+    2300014: framework 1
+    2300016: framework 10
+    2300018: framework 11
+    2300020: framework 12
+    2300022: framework 13
+    2300024: framework 14
+    2300026: framework 15
+    2300028: framework 16
+    2300030: framework 17
+    2300032: framework 18
+    2300034: framework 19
+    2300036: framework 2
+    2300038: framework 20
+    2300040: framework 21
+    2300042: framework 22
+    2300044: framework 23
+    2300046: framework 24
+    2300048: framework 25
+    2300050: framework 26
+    2300052: framework 27
+    2300054: framework 28
+    2300056: framework 29
+    2300058: framework 3
+    2300060: framework 30
+    2300062: framework 31
+    2300064: framework 4
+    2300066: framework 5
+    2300068: framework 6
+    2300070: framework 7
+    2300072: framework 8
+    2300074: framework 9
+    2300076: Sphere001
+    2300078: Tube001
+    2300080: Tube002
+    2300082: Tube003
+    3300000: Box001
+    3300002: Box002
+    3300004: Box003
+    3300006: Box004
+    3300008: Box005
+    3300010: Cylinder001
+    3300012: framework
+    3300014: framework 1
+    3300016: framework 10
+    3300018: framework 11
+    3300020: framework 12
+    3300022: framework 13
+    3300024: framework 14
+    3300026: framework 15
+    3300028: framework 16
+    3300030: framework 17
+    3300032: framework 18
+    3300034: framework 19
+    3300036: framework 2
+    3300038: framework 20
+    3300040: framework 21
+    3300042: framework 22
+    3300044: framework 23
+    3300046: framework 24
+    3300048: framework 25
+    3300050: framework 26
+    3300052: framework 27
+    3300054: framework 28
+    3300056: framework 29
+    3300058: framework 3
+    3300060: framework 30
+    3300062: framework 31
+    3300064: framework 4
+    3300066: framework 5
+    3300068: framework 6
+    3300070: framework 7
+    3300072: framework 8
+    3300074: framework 9
+    3300076: Sphere001
+    3300078: Tube001
+    3300080: Tube002
+    3300082: Tube003
+    4300000: framework
+    4300002: framework
+    4300004: framework
+    4300006: framework
+    4300008: framework
+    4300010: framework
+    4300012: framework
+    4300014: framework
+    4300016: framework
+    4300018: framework
+    4300020: framework
+    4300022: framework
+    4300024: framework
+    4300026: framework
+    4300028: framework
+    4300030: framework
+    4300032: framework
+    4300034: framework
+    4300036: framework
+    4300038: framework
+    4300040: framework
+    4300042: framework
+    4300044: framework
+    4300046: framework
+    4300048: framework
+    4300050: framework
+    4300052: framework
+    4300054: framework
+    4300056: framework
+    4300058: framework
+    4300060: framework
+    4300062: framework
+    4300064: Box001
+    4300066: Box002
+    4300068: Cylinder001
+    4300070: Box003
+    4300072: Box004
+    4300074: Sphere001
+    4300076: Box005
+    4300078: Tube001
+    4300080: Tube002
+    4300082: Tube003
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
