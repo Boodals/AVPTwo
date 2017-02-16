@@ -111,6 +111,12 @@ public class Path : MonoBehaviour
 
 	private List<PathSegment> segments = new List<PathSegment>();
 
+    [SerializeField]
+    private bool constantSpeed = false;
+
+    [SerializeField]
+    private bool forceSmooth = false;
+
 	private bool isValid = false;
 	private float totalDistance = 0f;
 
@@ -252,7 +258,7 @@ public class Path : MonoBehaviour
 	{
 		CheckValid();
 
-		const float res = 0.1f;
+		const float res = 1f;
 
 		Gizmos.color = Color.grey;
 
@@ -281,7 +287,7 @@ public class Path : MonoBehaviour
 		Gizmos.color = Color.white;
 
 
-		const float res = 0.1f;
+		const float res = 1f;
 
 		Vector3 lastPos = GetPos(0f);
 		for(float d = res; d <= totalDistance; d += res)
@@ -292,7 +298,7 @@ public class Path : MonoBehaviour
 			Gizmos.DrawLine(lastPos, pos);
 
 			Gizmos.color = new Color(0.65f, 0.65f, 0.65f);
-			Gizmos.DrawRay(pos, GetVelocity(d) * res * 0.5f);
+			Gizmos.DrawRay(pos, GetNormal(d) * res * 0.5f);
 
 			//Debug.Log(pos);
 

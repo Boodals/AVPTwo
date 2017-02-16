@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
 using System.Reflection;
 
 [CustomEditor(typeof(Path), true)]
 public class PathEditor : Editor
 {
-
 	[MenuItem("GameObject/New Path", false, 1)]
 	public static void MakeNewPathGameObject()
 	{
 		GameObject GO = new GameObject("Path");
 		GO.AddComponent<Path>();
 	}
-
+    
 	private Path path;
 
 	private SerializedProperty nodesArrayProp;
@@ -78,6 +78,7 @@ public class PathEditor : Editor
 
 	void OnSceneGUI()
 	{
+		int i = 0;
 		foreach(SerializedProperty nodeProp in nodesArrayProp)
 		{
 			SerializedProperty posProp = nodeProp.FindPropertyRelative("position");
@@ -88,11 +89,47 @@ public class PathEditor : Editor
 			{
 				//It moved, revalidate the path
 
+				Vector3 newLocalpos = path.transform.InverseTransformPoint(newWorldPos);
+
+				posProp.vector3Value = newLocalpos;
+
+				if(serializedObject.FindProperty("forceSmooth").boolValue)
+				{
+					//Check to see if this node is a direction node (eg the curve might not go directly through this point)
+					int localId = i % 3;
+					if(localId != 0)
+					{
+						//Get the matching node on the other side of the position node (if it exists)
+						int otherID = localId == 1 ? i - 2 : i + 2;
+						if(otherID > 0 && otherID < nodesArrayProp.arraySize)
+						{
+							//Get the position of the position node
+							int positionID = localId == 1 ? i - 1 : i + 1;
+							SerializedProperty positionNode = nodesArrayProp.GetArrayElementAtIndex(positionID);
+							Vector3 posNodePos = positionNode.vector3Value;
+
+							//Get the new normal
+							Vector3 normal = Vector3.Normalize(newLocalpos - posNodePos);
+
+							//Get the other nodes current position and normal
+							SerializedProperty otherNode = nodesArrayProp.GetArrayElementAtIndex(otherID);
+							Vector3 otherNodePos = otherNode.vector3Value;
+							Vector3 otherNodeNormal = otherNodePos - posNodePos;
+
+							//Rotate the other node so that it has an opposite normal
+							Vector3 otherNodeNewNormal = -normal * otherNodeNormal.magnitude;
+
+							//Apply the normal to the nodes position
+							otherNode.vector3Value = otherNodeNewNormal + posNodePos;
+						}
+					}
+				}
+
 				//Use reflection to call Validate
 				typeof(Path).GetMethod("Validate", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(path, null);
 			}
 
-			posProp.vector3Value = path.transform.InverseTransformPoint(newWorldPos);
+			i++;
 		}
 
 		serializedObject.ApplyModifiedProperties();

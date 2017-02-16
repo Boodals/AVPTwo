@@ -16,6 +16,7 @@ public class MeshChanger : MonoBehaviour {
 	public void swapMesh (int _in)
     {
 		GetComponent<MeshFilter>().mesh = meshPerScene[_in];
-	}
+        gameObject.transform.localScale = meshScale[_in];
+    }
 }
 
