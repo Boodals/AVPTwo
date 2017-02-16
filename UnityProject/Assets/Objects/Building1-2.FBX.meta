@@ -1,15 +1,22 @@
 fileFormatVersion: 2
-guid: 899e0462ececbc447b877becf70a7416
-timeCreated: 1487245866
-licenseType: Free
+guid: 04625eb44f541184e833b4ff1a826fe9
+timeCreated: 1487259373
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Box004
+    100002: //RootNode
+    100004: Object001
+    400000: Box004
+    400002: //RootNode
+    400004: Object001
+    2300000: Box004
+    2300002: Object001
+    3300000: Box004
+    3300002: Object001
     4300000: Box004
+    4300002: Object001
     7400000: Take 001
     9500000: //RootNode
   materials:
@@ -19,7 +26,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleRotations: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
