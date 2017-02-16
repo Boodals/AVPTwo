@@ -101,7 +101,7 @@ public class SceneMgr : MonoBehaviour
 	
 	private void LoadedScene()
 	{
-		Debug.Log("Done loading");
+		//Debug.Log("Done loading");
 		isChangingScene = false;
 
 		//Hide the window
@@ -155,11 +155,11 @@ public class SceneMgr : MonoBehaviour
 		if(screenSceneID == sceneId && !doForce)
 		{
             //Same screen
-            Debug.Log("Same screen");
+            //Debug.Log("Same screen");
 			return;
 		}
 
-		Debug.Log("SetActiveWindow " + sceneId + ": " + sceneNames[sceneId] + ", " + isChangingScene + " || " + isMoving + " || " + isChangingWindow);
+		//Debug.Log("SetActiveWindow " + sceneId + ": " + sceneNames[sceneId] + ", " + isChangingScene + " || " + isMoving + " || " + isChangingWindow);
 		if(isChangingScene || isMoving || isChangingWindow)
 		{
 			return;
@@ -182,7 +182,7 @@ public class SceneMgr : MonoBehaviour
 		else
 		{
             //Changing from null window to null window
-            Debug.Log("Changing from null to null");
+           // Debug.Log("Changing from null to null");
 
             //Do nothing
         }
@@ -193,7 +193,7 @@ public class SceneMgr : MonoBehaviour
 		{
 			if(cutOff != null)
             {
-                Debug.Log(doForce + " forceTransition(" + sceneId + " != " + i + " = " + (sceneId != i) + ")");
+                //Debug.Log(doForce + " forceTransition(" + sceneId + " != " + i + " = " + (sceneId != i) + ")");
                 if (doForce)
 				{
 					cutOff.forceTransition(sceneId != i);
@@ -209,7 +209,7 @@ public class SceneMgr : MonoBehaviour
 
 	private void OnWindowFinish(CuttofScroller cutOff)
 	{
-		Debug.Log("OnWindowFinish " + isChangingScene);
+		//Debug.Log("OnWindowFinish " + isChangingScene);
 
 
 		isChangingWindow = false;
@@ -229,7 +229,7 @@ public class SceneMgr : MonoBehaviour
 		{
 			//They arent looking, unload the scene!
 
-			Debug.Log("They arent looking, unload the scene! " + screenSceneID + " != " + currentSceneID + " && " + (windowPictures[screenSceneID] != null));
+			//Debug.Log("They arent looking, unload the scene! " + screenSceneID + " != " + currentSceneID + " && " + (windowPictures[screenSceneID] != null));
 			
 			SetScene(0);
 		}
@@ -237,7 +237,7 @@ public class SceneMgr : MonoBehaviour
 
 	private void SetScene(int sceneId)
 	{
-		Debug.Log("SetScene " + sceneId + ", " + sceneNames[sceneId]);
+		//Debug.Log("SetScene " + sceneId + ", " + sceneNames[sceneId]);
 
 
 		SceneManager.UnloadScene(sceneNames[currentSceneID]);
@@ -252,7 +252,7 @@ public class SceneMgr : MonoBehaviour
 		if(loadAsync == null)
 		{
 			//Failed to load, scene probably doesnt exist
-			Debug.LogWarning("Failed to load scene");
+			//Debug.LogWarning("Failed to load scene");
 
 			LoadedScene();
 		}

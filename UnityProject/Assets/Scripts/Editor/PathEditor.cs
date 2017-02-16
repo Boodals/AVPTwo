@@ -95,35 +95,13 @@ public class PathEditor : Editor
 
 				if(serializedObject.FindProperty("forceSmooth").boolValue)
 				{
-					//Check to see if this node is a direction node (eg the curve might not go directly through this point)
-					int localId = i % 3;
-					if(localId != 0)
-					{
-						//Get the matching node on the other side of the position node (if it exists)
-						int otherID = localId == 1 ? i - 2 : i + 2;
-						if(otherID > 0 && otherID < nodesArrayProp.arraySize)
-						{
-							//Get the position of the position node
-							int positionID = localId == 1 ? i - 1 : i + 1;
-							SerializedProperty positionNode = nodesArrayProp.GetArrayElementAtIndex(positionID);
-							Vector3 posNodePos = positionNode.vector3Value;
-
-							//Get the new normal
-							Vector3 normal = Vector3.Normalize(newLocalpos - posNodePos);
-
-							//Get the other nodes current position and normal
-							SerializedProperty otherNode = nodesArrayProp.GetArrayElementAtIndex(otherID);
-							Vector3 otherNodePos = otherNode.vector3Value;
-							Vector3 otherNodeNormal = otherNodePos - posNodePos;
-
-							//Rotate the other node so that it has an opposite normal
-							Vector3 otherNodeNewNormal = -normal * otherNodeNormal.magnitude;
-
-							//Apply the normal to the nodes position
-							otherNode.vector3Value = otherNodeNewNormal + posNodePos;
-						}
-					}
+					DoForceSmoothToNode(i, newLocalpos);
 				}
+
+				if(serializedObject.FindProperty("forceSmoothSpeed").boolValue)
+				{
+					DoForceSpeedToNode(i, newLocalpos);
+                }
 
 				//Use reflection to call Validate
 				typeof(Path).GetMethod("Validate", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(path, null);
@@ -135,4 +113,108 @@ public class PathEditor : Editor
 		serializedObject.ApplyModifiedProperties();
 	}
 
+	private void DoForceSmoothToNode(int nodeId, Vector3 newLocalpos)
+	{
+		//Check to see if this node is a handle node (eg the curve might not go directly through this point)
+		if(!IsNodeHandle(nodeId))
+		{
+			return;
+		}
+
+		//Get the matching node on the other side of the position node (if it exists)
+		int pairedID = GetPairedHandleNodeFromHandleNode(nodeId);
+		if(pairedID == -1)
+		{
+			return;
+		}
+
+		//Get the position of the position node
+		int positionID = GetPositionNodeFromHandleNode(nodeId);
+		SerializedProperty positionNode = nodesArrayProp.GetArrayElementAtIndex(positionID);
+		Vector3 posNodePos = positionNode.FindPropertyRelative("position").vector3Value;
+
+		//Get the other nodes current position and normal
+		SerializedProperty handleNode = nodesArrayProp.GetArrayElementAtIndex(pairedID);
+		Vector3 handleNodePos = handleNode.FindPropertyRelative("position").vector3Value;
+		Vector3 handleNodeNormal = handleNodePos - posNodePos;
+
+		//Get the new normal
+		Vector3 normal = Vector3.Normalize(newLocalpos - posNodePos);
+
+		//Rotate the other node so that it has an opposite normal
+		Vector3 handleNodeNewNormal = -normal * handleNodeNormal.magnitude;
+
+		//Apply the normal to the nodes position
+		handleNode.FindPropertyRelative("position").vector3Value = handleNodeNewNormal + posNodePos;
+	}
+
+	private void DoForceSpeedToNode(int nodeId, Vector3 newLocalpos)
+	{
+		//Check to see if this node is a handle node (eg the curve might not go directly through this point)
+		if(!IsNodeHandle(nodeId))
+		{
+			return;
+		}
+
+		//Get the matching node on the other side of the position node (if it exists)
+		int pairedID = GetPairedHandleNodeFromHandleNode(nodeId);
+		if(pairedID == -1)
+		{
+			return;
+		}
+
+		//Get the position of the position node
+		int positionID = GetPositionNodeFromHandleNode(nodeId);
+		SerializedProperty positionNode = nodesArrayProp.GetArrayElementAtIndex(positionID);
+		Vector3 posNodePos = positionNode.FindPropertyRelative("position").vector3Value;
+
+		//Get the other nodes current position and normal
+		SerializedProperty handleNode = nodesArrayProp.GetArrayElementAtIndex(pairedID);
+		Vector3 handleNodePos = handleNode.FindPropertyRelative("position").vector3Value;
+		Vector3 handleNodeNormal = handleNodePos - posNodePos;
+
+		//Get the new speed
+		float speed = Vector3.Magnitude(newLocalpos - posNodePos);
+
+		//Rotate the other node so that it has an opposite normal
+		Vector3 handleNodeNewNormal = handleNodeNormal.normalized * speed;
+
+		//Apply the normal to the nodes position
+		handleNode.FindPropertyRelative("position").vector3Value = handleNodeNewNormal + posNodePos;
+	}
+
+	private bool IsNodeHandle(int nodeId)
+	{
+		return nodeId % 3 != 0;
+    }
+
+	private int GetPairedHandleNodeFromHandleNode(int handleId)
+	{
+		int localId = handleId % 3;
+		if(localId == 0)
+		{
+			Debug.LogError("nodeID is not a handle!");
+			return -1;
+		}
+		int otherHandleID = localId == 1 ? handleId - 2 : handleId + 2;
+		if(otherHandleID > 0 && otherHandleID < nodesArrayProp.arraySize)
+		{
+			return otherHandleID;
+		}
+		
+		//Node has no pair. It is the first or last handle
+		return -1;
+	}
+
+	private int GetPositionNodeFromHandleNode(int handleId)
+	{
+		int localId = handleId % 3;
+		if(localId == 0)
+		{
+			Debug.LogError("nodeID is not a handle!");
+			return -1;
+		}
+		
+		return localId == 1 ? handleId - 1 : handleId + 1;
+	}
 }

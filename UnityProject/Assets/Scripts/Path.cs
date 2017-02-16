@@ -112,7 +112,7 @@ public class Path : MonoBehaviour
 	private List<PathSegment> segments = new List<PathSegment>();
 
     [SerializeField]
-    private bool constantSpeed = false;
+    private bool forceSmoothSpeed = false;
 
     [SerializeField]
     private bool forceSmooth = false;
